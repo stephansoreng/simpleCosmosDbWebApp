@@ -1,0 +1,32 @@
+﻿@model IEnumerable<webappdemo2.Models.Item>
+
+@{
+    ViewBag.Title = "Recently analyzed number plates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of To-Do Items</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+        </tr>
+    }
+
+</table>
