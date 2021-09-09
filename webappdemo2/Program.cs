@@ -26,14 +26,13 @@ namespace webappdemo2
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
-                        //config.AddAzureAppConfiguration(options =>
-                        //options.Connect(new Uri(settings["AppConfig:Endpoint"]), new DefaultAzureCredential()));
                         config.AddAzureAppConfiguration(options =>
                         {
-                            options.Connect(settings["ConnectionStrings:AppConfig"])
+                            var connection = settings.GetConnectionString("AppConfig");
+                            options.Connect(connection)
                                     .ConfigureKeyVault(kv =>
                                     {
-                                        kv.SetCredential(new ManagedIdentityCredential());
+                                        kv.SetCredential(new DefaultAzureCredential());
                                     });
                         });
                     })
