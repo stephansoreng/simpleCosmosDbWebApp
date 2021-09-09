@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Services.AppAuthentication;
+using Azure.Identity;
+using Microsoft.Azure.AppConfiguration.AspNetCore;
 
 namespace webappdemo2
 {
@@ -20,7 +23,21 @@ namespace webappdemo2
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        var settings = config.Build();
+                        //config.AddAzureAppConfiguration(options =>
+                        //options.Connect(new Uri(settings["AppConfig:Endpoint"]), new DefaultAzureCredential()));
+                        config.AddAzureAppConfiguration(options =>
+                        {
+                            options.Connect(settings["ConnectionStrings:AppConfig"])
+                                    .ConfigureKeyVault(kv =>
+                                    {
+                                        kv.SetCredential(new DefaultAzureCredential());
+                                    });
+                        });
+                    })
+                    .UseStartup<Startup>();
                 });
     }
 }
