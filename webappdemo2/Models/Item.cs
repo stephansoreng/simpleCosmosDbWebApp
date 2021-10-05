@@ -11,6 +11,9 @@ namespace webappdemo2.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
+        [JsonProperty(PropertyName = "date")]
+        public DateTime Date { get; set; }
+
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
     }
