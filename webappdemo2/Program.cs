@@ -20,23 +20,31 @@ namespace webappdemo2
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
-                    {
-                        var settings = config.Build();
-                        config.AddAzureAppConfiguration(options =>
-                        {
-                            var connection = settings.GetConnectionString("AppConfig");
-                            options.Connect(connection)
-                                    .ConfigureKeyVault(kv =>
-                                    {
-                                        kv.SetCredential(new DefaultAzureCredential());
-                                    });
-                        });
-                    })
-                    .UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>();
                 });
+        /*
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var settings = config.Build();
+                    config.AddAzureAppConfiguration(options =>
+                    {
+                        var connection = settings.GetConnectionString("AppConfig");
+                        options.Connect(connection)
+                                .ConfigureKeyVault(kv =>
+                                {
+                                    kv.SetCredential(new DefaultAzureCredential());
+                                });
+                    });
+                })
+                .UseStartup<Startup>();
+            });
+        */
     }
 }
